@@ -1,0 +1,36 @@
+<div class="title-fields">
+  {{avatar currentUser imageSize="small"}}
+  {{input value=title class="input-xxlarge"}}
+  {{#if showLength}}
+    <div class="title-length">{{titleLength}}</div>
+  {{/if}}
+</div>
+{{#if topTip}}
+  <span class='title-tip'>
+    {{{i18n topTip min=siteSettings.min_topic_title_length}}}
+  </span>
+{{/if}}
+{{#if component}}
+  {{component component title=title
+                        category=category
+                        ready="ready"
+                        updateTip="updateTip"
+                        isTitleComposer=true
+                        addComposerProperty="addComposerProperty"
+                        setNextTarget="setNextTarget"}}
+{{/if}}
+{{#if showGutter}}
+  <div class="gutter">
+    {{#if showBack}}
+      {{d-button label='composer.back' action='back' class='btn btn-primary back' disabled=backDisabled}}
+    {{/if}}
+    {{#if bottomTip}}
+      <span class='title-tip'>
+        {{{i18n bottomTip min=siteSettings.min_topic_title_length categoryName=category.name}}}
+      </span>
+    {{/if}}
+    {{#if showNext}}
+      {{d-button label='composer.next' action='next' class='btn btn-primary next' disabled=nextDisabled}}
+    {{/if}}
+  </div>
+{{/if}}

@@ -1,0 +1,6 @@
+{{#each topicTypes as |type|}}
+  {{topic-type-btn topicType=type switchTopicType="switchTopicType" currentType=currentType}}
+  {{#if isTitleComposer}}
+    {{topic-type-text type=type ext="description"}}
+  {{/if}}
+{{/each}}

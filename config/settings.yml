@@ -1,0 +1,18 @@
+plugins:
+  composer_title_components:
+    client: true
+    type: list
+    default: ''
+    choices: []
+  composer_show_title_length:
+    client: true
+    default: false
+  composer_topic_types:
+    client: true
+    type: list
+    default: ''
+    choices:
+     - question
+     - rating
+     - event
+     - general
