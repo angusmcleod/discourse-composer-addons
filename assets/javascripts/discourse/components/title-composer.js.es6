@@ -4,11 +4,20 @@ import { getOwner } from 'discourse-common/lib/get-owner';
 export default Ember.Component.extend({
   classNameBindings: [':title-composer', 'showLength:show-length'],
   showGutter: Ember.computed.or('bottomTip', 'showNext'),
+  placeholder: I18n.t('composer.title_or_link_placeholder'),
   component: null,
   showLength: false,
   showBack: Ember.computed.gt('step', 0),
   step: null,
   composerProperties: {},
+
+  init() {
+    this._super(...arguments);
+    this.setProperties({
+      'components': this.siteSettings.composer_title_components.split('|'),
+      'optionalComponents': this.siteSettings.composer_title_optional_components.split('|')
+    })
+  },
 
   didInsertElement() {
     Ember.$(document).on('click', Ember.run.bind(this, this.documentClick))
@@ -39,12 +48,19 @@ export default Ember.Component.extend({
   },
 
   showTitleTips() {
-    this.setProperties({
+    let props = {
       'showLength': true,
-      'showNext': true,
-      'componentReady': true,
       'bottomTip': 'composer.tip.title',
-    })
+      'showNext': true
+    }
+
+    if (this.get('components').length > 0) {
+      Object.assign(props, {
+        'componentReady': true,
+      })
+    }
+
+    this.setProperties(props);
   },
 
   hideTitleTips() {
@@ -60,6 +76,11 @@ export default Ember.Component.extend({
   @computed('title')
   titleLength(title) {
     return title ? title.length : 0;
+  },
+
+  @computed('titleValid')
+  titleLengthClass(valid) {
+    return valid ? '' : 'invalid'
   },
 
   @computed('titleLength')
@@ -88,7 +109,7 @@ export default Ember.Component.extend({
       action: 'createTopic',
       draftKey: 'new_topic',
       draftSequence: 0,
-      addProperties: this.get('composerProperties')
+      addProperties: addProperties
     });
 
     this.resetProperties();
@@ -108,16 +129,7 @@ export default Ember.Component.extend({
     this.setProperties({
       'componentReady': false,
       'bottomTip': '',
-      'topTip': ''
-    })
-  },
-
-  updateStep(step) {
-    const components = this.siteSettings.composer_title_components.split('|');
-    this.setProperties({
-      'component': components[step],
-      'step': step,
-      'nextTarget': null
+      'topTip': '',
     })
   },
 
@@ -144,23 +156,37 @@ export default Ember.Component.extend({
       this.resetDisplay();
 
       let step = this.get('step');
-      if (step === null || step === 0) return;
-      step--;
+      if (this.get('isOptionalStep')) {
+        this.set('isOptionalStep', false);
+      } else {
+        if (step === null || step === 0) return;
+        step--;
+      }
 
-      this.updateStep(step)
+      const components = this.get('components');
+      this.setProperties({
+        'component': components[step],
+        'step': step,
+        'nextTarget': null
+      })
     },
 
     next() {
       if (this.get('nextDisabled')) return;
       this.resetDisplay();
 
-      const components = this.siteSettings.composer_title_components.split('|');
-      const targetStep = components.indexOf(this.get('nextTarget'));
+      const optional = this.get('optionalComponents');
+      const targetStep = optional.indexOf(this.get('nextTarget'));
       if (targetStep > -1) {
-        this.updateStep(targetStep);
+        this.setProperties({
+          'component': optional[targetStep],
+          'nextTarget': null,
+          'isOptionalStep': true
+        })
         return;
       }
 
+      const components = this.get('components');
       let step = this.get('step');
       if (step === (components.length - 1)) {
         return this.openComposer();
@@ -170,7 +196,16 @@ export default Ember.Component.extend({
         step++;
       }
 
-      this.updateStep(step);
+      const component = getOwner(this).lookup(`component:${components[step]}`);
+      if (!component) {
+        return this.openComposer();
+      }
+
+      this.setProperties({
+        'component': components[step],
+        'step': step,
+        'nextTarget': null
+      })
     }
   }
 })

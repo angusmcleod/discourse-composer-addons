@@ -1,8 +1,8 @@
 <div class="title-fields">
   {{avatar currentUser imageSize="small"}}
-  {{input value=title class="input-xxlarge"}}
+  {{input value=title class="input-xxlarge" placeholder=placeholder}}
   {{#if showLength}}
-    <div class="title-length">{{titleLength}}</div>
+    <div class="title-length {{titleLengthClass}}">{{titleLength}}</div>
   {{/if}}
 </div>
 {{#if topTip}}

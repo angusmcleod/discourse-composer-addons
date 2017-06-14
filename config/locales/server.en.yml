@@ -2,4 +2,5 @@ en:
   site_settings:
     composer_show_title_length: "Show title character length in composer"
     composer_topic_types: "Select topic types to display in composer"
-    composer_title_components: "Components to insert into the title composer"
+    composer_title_components: "Components to insert into the title composer in order they should appear"
+    composer_title_optional_components: "Optional components to insert into title composer in certain circumstances"

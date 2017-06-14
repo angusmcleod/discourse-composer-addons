@@ -1,7 +1,8 @@
 import Composer from 'discourse/models/composer';
 import ComposerController from 'discourse/controllers/composer';
-import ComposerEditor from 'discourse/components/composer-editor';
-import { default as computed } from 'ember-addons/ember-computed-decorators';
+import DEditor from 'discourse/components/d-editor';
+import { default as computed, observes } from 'ember-addons/ember-computed-decorators';
+import { getOwner } from 'discourse-common/lib/get-owner';
 
 export default {
   name: 'composer-edits',
@@ -12,10 +13,16 @@ export default {
       showCategoryChooser: false,
       similarTitleTopics: Ember.A(),
       makeWiki: false,
+      currentType: 'general',
 
       @computed('currentType')
       showWikiControls(type) {
         return type === 'general';
+      },
+
+      @computed('currentType')
+      typePlaceholder(type) {
+        return `topic.type.${type}.placeholder`;
       }
     })
 
@@ -31,13 +38,26 @@ export default {
       }
     })
 
-    ComposerEditor.reopen({
-      @computed('composer.currentType')
-      placeholder(type) {
-        if (type) return `topic.type.${type}.body`;
-        return "composer.reply_placeholder"
+    DEditor.reopen({
+      init() {
+        this._super(...arguments);
+        const controller = getOwner(this).lookup('controller:composer');
+        if (controller) {
+          this.set('typePlaceholder', controller.get('model.typePlaceholder'));
+          controller.addObserver('model.currentType', this, function(controller, prop) {
+            if (this._state === 'destroying') { return }
+
+            this.set('typePlaceholder', controller.get('model.typePlaceholder'));
+          })
+        }
+      },
+
+      @computed('placeholder', 'typePlaceholder')
+      placeholderTranslated(placeholder, typePlaceholder) {
+        if (typePlaceholder) return I18n.t(typePlaceholder);
+        if (placeholder) return I18n.t(placeholder);
+        return null;
       }
     })
-
   }
 };

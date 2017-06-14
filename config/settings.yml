@@ -1,4 +1,9 @@
 plugins:
+  composer_title_optional_components:
+    client: true
+    type: list
+    default: ''
+    choices: []
   composer_title_components:
     client: true
     type: list

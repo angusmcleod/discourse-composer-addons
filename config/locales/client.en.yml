@@ -3,32 +3,26 @@ en:
     composer:
       title_or_link_placeholder: 'Enter a title for your post.'
       tip:
-        title: "Title needs at least {{min}} characters."
+        title: "Titles need at least {{min}} characters."
         type_choice: "What is the main purpose of your post?"
       back: "Back"
       next: "Next"
       make_wiki: "Allow others to edit your post."
-    tagging:
-      choose_for_topic: "Add tags"
     topic:
       type:
         question:
-          title: 'question'
           label: 'Question'
           description: 'Ask a legal, government or civic question.'
-          body: 'Give as much context and background as you can.'
+          placeholder: 'Give as much context and background as you can.'
         rating:
-          title: 'rating'
           label: 'Review'
           description: "Review a legal, government or civic service."
-          body: "Describe your experience with the service."
+          placeholder: "Describe your experience with the service."
         event:
-          title: 'event'
           label: 'Event'
           description: "Post a civic event happening in your area."
-          body: "Add all relevant details of the event."
+          placeholder: "Add all relevant details of the event."
         general:
-          title: 'general'
           label: 'General'
           description: 'Post anything related to civic life in your area.'
-          body: 'Add the body of your post.'
+          placeholder: 'Add the body of your post.'
