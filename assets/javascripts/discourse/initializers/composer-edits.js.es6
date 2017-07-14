@@ -1,7 +1,9 @@
 import Composer from 'discourse/models/composer';
+import ComposerMessages from 'discourse/components/composer-messages';
+import PermissionType from 'discourse/models/permission-type';
 import ComposerController from 'discourse/controllers/composer';
 import DEditor from 'discourse/components/d-editor';
-import { default as computed, observes } from 'ember-addons/ember-computed-decorators';
+import { default as computed, observes, on } from 'ember-addons/ember-computed-decorators';
 import { getOwner } from 'discourse-common/lib/get-owner';
 
 export default {
@@ -13,17 +15,32 @@ export default {
       showCategoryChooser: false,
       similarTitleTopics: Ember.A(),
       makeWiki: false,
-      currentType: 'general',
+      typePlaceholderEnabled: true,
 
-      @computed('currentType')
-      showWikiControls(type) {
-        return type === 'general';
+      @computed('currentType', 'topicFirstPost')
+      showWikiControls(type, topicFirstPost) {
+        return topicFirstPost && type === 'general';
       },
 
-      @computed('currentType')
-      typePlaceholder(type) {
-        return `topic.type.${type}.placeholder`;
+      @computed('currentType', 'topicFirstPost', 'category')
+      showTypeControls(type, topicFirstPost, category) {
+        return topicFirstPost && category.get('is_active') && this.siteSettings.composer_topic_types.split('|').indexOf(type) > -1;
+      },
+
+      @computed('currentType', 'topicFirstPost')
+      typeBodyPlaceholder(type, topicFirstPost) {
+        return topicFirstPost? `topic.type.${type}.body_placeholder` : false;
+      },
+
+      @computed('canEditTopicFeaturedLink', 'currentType', 'topicFirstPost')
+      titlePlaceholder(canEditTopicFeaturedLink, type, topicFirstPost) {
+        if (type && topicFirstPost) return `topic.type.${type}.title_placeholder`;
+        return canEditTopicFeaturedLink ? 'composer.title_or_link_placeholder' : 'composer.title_placeholder';
       }
+    })
+
+    ComposerMessages.reopen({
+      queuedForTyping: []
     })
 
     ComposerController.reopen({
@@ -43,18 +60,18 @@ export default {
         this._super(...arguments);
         const controller = getOwner(this).lookup('controller:composer');
         if (controller) {
-          this.set('typePlaceholder', controller.get('model.typePlaceholder'));
+          this.set('typeBodyPlaceholder', controller.get('model.typeBodyPlaceholder'));
           controller.addObserver('model.currentType', this, function(controller, prop) {
-            if (this._state === 'destroying') { return }
+            if (this._state === 'destroying') return;
 
-            this.set('typePlaceholder', controller.get('model.typePlaceholder'));
+            this.set('typeBodyPlaceholder', controller.get('model.typeBodyPlaceholder'));
           })
         }
       },
 
-      @computed('placeholder', 'typePlaceholder')
-      placeholderTranslated(placeholder, typePlaceholder) {
-        if (typePlaceholder) return I18n.t(typePlaceholder);
+      @computed('placeholder', 'typeBodyPlaceholder')
+      placeholderTranslated(placeholder, typeBodyPlaceholder) {
+        if (typeBodyPlaceholder) return I18n.t(typeBodyPlaceholder);
         if (placeholder) return I18n.t(placeholder);
         return null;
       }

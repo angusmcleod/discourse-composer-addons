@@ -8,21 +8,26 @@ en:
       back: "Back"
       next: "Next"
       make_wiki: "Allow others to edit your post."
+      create_message: "Creating a new topic in {{categoryName}}"
     topic:
       type:
         question:
           label: 'Question'
           description: 'Ask a legal, government or civic question.'
-          placeholder: 'Give as much context and background as you can.'
+          title_placeholder: "What is your question?"
+          body_placeholder: 'Give as much context and background as you can.'
         rating:
           label: 'Review'
           description: "Review a legal, government or civic service."
-          placeholder: "Describe your experience with the service."
+          title_placeholder: "Name of the service"
+          body_placeholder: "Describe your experience with the service."
         event:
           label: 'Event'
           description: "Post a civic event happening in your area."
-          placeholder: "Add all relevant details of the event."
+          title_placeholder: "Event title"
+          body_placeholder: "Add all relevant details of the event."
         general:
           label: 'General'
           description: 'Post anything related to civic life in your area.'
-          placeholder: 'Add the body of your post.'
+          title_placeholder: "Post title"
+          body_placeholder: 'Add the body of your post.'

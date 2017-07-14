@@ -2,7 +2,7 @@ import computed from "ember-addons/ember-computed-decorators";
 
 export default Ember.Component.extend({
   tagName: "div",
-  classNameBindings: [':topic-type-btn', ':btn-composer'],
+  classNameBindings: [':topic-type-btn'],
 
   @computed('active')
   topicTypeClass() {

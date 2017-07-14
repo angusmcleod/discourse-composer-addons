@@ -1,1 +1,6 @@
-{{composer-type-selection currentType=model.currentType isTitleComposer=false}}
+{{#if model.showCreateMessage}}
+  {{i18n 'composer.create_message' categoryName=model.categoryName}}
+{{/if}}
+{{#if model.showTypeControls}}
+  {{composer-type-selection currentType=model.currentType isTitleComposer=false}}
+{{/if}}

@@ -43,6 +43,8 @@ export default Ember.Component.extend({
 
   clickOutside() {
     if (!this.get('component')) {
+      if (this._state == 'destroying') return;
+
       this.hideTitleTips();
     }
   },

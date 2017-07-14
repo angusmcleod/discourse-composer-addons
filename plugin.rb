@@ -7,7 +7,6 @@
 register_asset 'stylesheets/composer-addons.scss'
 
 after_initialize do
-
   SiteSetting.class_eval do
     @choices[:composer_title_components].push('composer-type-selection')
   end
@@ -32,6 +31,7 @@ after_initialize do
 
   PostRevisor.track_topic_field(:topic_type)
   PostRevisor.track_topic_field(:make_wiki)
+  PostRevisor.track_topic_field(:skip_validations)
 
   DiscourseEvent.on(:post_created) do |post, opts, user|
     topic_type = opts[:topic_type]
@@ -46,4 +46,8 @@ after_initialize do
       topic.save!
     end
   end
+
+  add_to_serializer(:basic_category, :show_title_composer) {
+    scope && scope.current_user.present? && object.permission == CategoryGroup.permission_types[:full]
+  }
 end

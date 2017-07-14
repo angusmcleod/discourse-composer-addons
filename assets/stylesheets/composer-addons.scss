@@ -79,6 +79,7 @@
 .topic-type-container {
   display: flex;
   margin-left: 15px;
+  margin-bottom: 3px;
 
   &.show-descriptions {
     display: block;
@@ -127,30 +128,55 @@
   }
 }
 
-.control-row {
+.composer-fields {
+  .form-element, .form-element + span {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
   .topic-type-container {
     justify-content: space-between;
     margin-right: 30px;
-    margin-bottom: 10px;
     margin-left: 0;
   }
 
-  .btn-composer {
-    padding: 10px 0;
-
-    button {
-      background-color: dark-light-choose(#fff, scale-color($primary, $lightness: 60%));
-      color: $tertiary;
-    }
+  .btn:not(.btn-primary), .btn-composer {
+    color: $tertiary;
+    background-color: $secondary;
+    padding: 6px 12px;
   }
 }
 
-span + .reply-to {
+#reply-control.edit-title .contents input#reply-title {
+  margin: 10px 5px 10px 0;
+}
+
+.composer-fields-outlet {
+  line-height: 10px;
+
+  > div {
+    margin-right: 5px;
+  }
+}
+
+div[class*='composer-controls'] {
+  display: inline-block;
+}
+
+#reply-control.topic .reply-to, #reply-control.edit-title .reply-to {
   display: none;
+}
+
+.composer-controls-wiki input[type="checkbox"] {
+  margin-right: 3px;
 }
 
 #topic-title .topic-title-icon {
   position: absolute;
   top: 15px;
   right: 15px;
+}
+
+.tag-chooser {
+  margin: 8px 0;
 }

@@ -2,8 +2,9 @@ import { registerUnbound } from 'discourse-common/lib/helpers';
 import { topicIconClass } from '../lib/composer-utilities';
 
 function renderTopicIcon(topic) {
-  if (topic.get('subtype')) {
-    return `<i class="fa fa-${topicIconClass(topic.get('subtype'))}"></i>`;
+  let iconClass = topicIconClass(topic.get('subtype'));
+  if (iconClass) {
+    return `<i class="fa fa-${iconClass}"></i>`;
   } else {
     return '';
   }

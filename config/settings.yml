@@ -21,3 +21,6 @@ plugins:
      - rating
      - event
      - general
+  composer_override_shortcut:
+    client: true
+    default: true
