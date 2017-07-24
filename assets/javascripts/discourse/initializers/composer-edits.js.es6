@@ -24,7 +24,7 @@ export default {
 
       @computed('currentType', 'topicFirstPost', 'category')
       showTypeControls(type, topicFirstPost, category) {
-        return topicFirstPost && category.get('is_active') && this.siteSettings.composer_topic_types.split('|').indexOf(type) > -1;
+        return topicFirstPost && category && category.get('is_active') && this.siteSettings.composer_topic_types.split('|').indexOf(type) > -1;
       },
 
       @computed('currentType', 'topicFirstPost')
