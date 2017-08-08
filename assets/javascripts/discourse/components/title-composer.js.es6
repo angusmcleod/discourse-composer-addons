@@ -15,7 +15,7 @@ export default Ember.Component.extend({
     this._super(...arguments);
     this.setProperties({
       'components': this.siteSettings.composer_title_components.split('|'),
-      'optionalComponents': this.siteSettings.composer_title_optional_components.split('|')
+      'conditionalComponents': this.siteSettings.composer_title_conditional_components.split('|')
     })
   },
 
@@ -158,8 +158,8 @@ export default Ember.Component.extend({
       this.resetDisplay();
 
       let step = this.get('step');
-      if (this.get('isOptionalStep')) {
-        this.set('isOptionalStep', false);
+      if (this.get('isConditionalStep')) {
+        this.set('isConditionalStep', false);
       } else {
         if (step === null || step === 0) return;
         step--;
@@ -177,13 +177,13 @@ export default Ember.Component.extend({
       if (this.get('nextDisabled')) return;
       this.resetDisplay();
 
-      const optional = this.get('optionalComponents');
-      const targetStep = optional.indexOf(this.get('nextTarget'));
+      const conditional = this.get('conditionalComponents');
+      const targetStep = conditional.indexOf(this.get('nextTarget'));
       if (targetStep > -1) {
         this.setProperties({
-          'component': optional[targetStep],
+          'component': conditional[targetStep],
           'nextTarget': null,
-          'isOptionalStep': true
+          'isConditionalStep': true
         })
         return;
       }

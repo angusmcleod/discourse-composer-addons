@@ -1,10 +1,10 @@
 plugins:
-  composer_title_optional_components:
+  composer_title_components:
     client: true
     type: list
     default: ''
     choices: []
-  composer_title_components:
+  composer_title_conditional_components:
     client: true
     type: list
     default: ''

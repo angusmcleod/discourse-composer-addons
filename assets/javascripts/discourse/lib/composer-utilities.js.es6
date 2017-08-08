@@ -8,6 +8,8 @@ var topicIconClass = function(topicType) {
       return 'star';
     case 'event':
       return 'calendar';
+    case 'election':
+      return 'check-square-o';
   }
 }
 
