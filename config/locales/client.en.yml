@@ -8,7 +8,9 @@ en:
       back: "Back"
       next: "Next"
       make_wiki: "Allow others to edit your post."
-      create_message: "Creating a new topic in {{categoryName}}"
+      create_message:
+        start: "Creating a new"
+        join: "in"
     topic:
       type:
         question:

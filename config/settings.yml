@@ -3,15 +3,9 @@ plugins:
     client: true
     type: list
     default: ''
-    choices: []
-  composer_title_conditional_components:
-    client: true
-    type: list
-    default: ''
-    choices: []
-  composer_show_title_length:
-    client: true
-    default: false
+    choices:
+      - similar-titles
+      - topic-type
   composer_topic_types:
     client: true
     type: list

@@ -37,7 +37,8 @@
     color: dark-light-diff($primary, $secondary, 45%, -30%);
     float: left;
     line-height: 30px;
-    margin: 15px;
+    padding-top: 10px;
+    margin: 0 10px;
 
     &.right {
       float: right;
@@ -52,10 +53,10 @@
   .gutter {
     display: flex;
     justify-content: space-between;
-    padding-top: 15px;
+    padding-top: 10px;
 
     .title-tip {
-      margin: 0 15px;
+      padding: 0;
       flex: 0 2 auto;
     }
   }
@@ -78,8 +79,8 @@
 
 .topic-type-container {
   display: flex;
-  margin-left: 15px;
-  margin-bottom: 3px;
+  margin-left: 10px;
+  padding-top: 10px;
 
   &.show-descriptions {
     display: block;
@@ -103,7 +104,7 @@
       width: 100%;
       color: $tertiary;
 
-      &.active {
+      &.active, &:hover {
         color: dark-light-choose(#fff, scale-color($primary, $lightness: 60%));
         background: $tertiary;
       }
@@ -139,28 +140,10 @@
     margin-right: 30px;
     margin-left: 0;
   }
-
-  .btn:not(.btn-primary), .btn-composer {
-    color: $tertiary;
-    background-color: $secondary;
-    padding: 6px 12px;
-  }
 }
 
 #reply-control.edit-title .contents input#reply-title {
-  margin: 10px 5px 10px 0;
-}
-
-.composer-fields-outlet {
-  line-height: 10px;
-
-  > div {
-    margin-right: 5px;
-  }
-}
-
-div[class*='composer-controls'] {
-  display: inline-block;
+  margin: 7px 0;
 }
 
 #reply-control.topic .reply-to, #reply-control.edit-title .reply-to {
@@ -179,4 +162,18 @@ div[class*='composer-controls'] {
 
 .tag-chooser {
   margin: 8px 0;
+}
+
+.title-component-event {
+  clear: both;
+  margin-left: 15px;
+
+  .event-label, .location-label {
+    padding: 10px 0;
+  }
+}
+
+#reply-control .type-selector {
+  width: 100px !important;
+  min-width: 100px !important;
 }

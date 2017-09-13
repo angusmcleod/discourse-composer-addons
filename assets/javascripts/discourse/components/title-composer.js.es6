@@ -11,14 +11,6 @@ export default Ember.Component.extend({
   step: null,
   composerProperties: {},
 
-  init() {
-    this._super(...arguments);
-    this.setProperties({
-      'components': this.siteSettings.composer_title_components.split('|'),
-      'conditionalComponents': this.siteSettings.composer_title_conditional_components.split('|')
-    })
-  },
-
   didInsertElement() {
     Ember.$(document).on('click', Ember.run.bind(this, this.documentClick))
   },
@@ -73,6 +65,11 @@ export default Ember.Component.extend({
       'topTip': null,
       'bottomTip': null
     })
+  },
+
+  @computed
+  components() {
+    return this.siteSettings.composer_title_components.split('|');
   },
 
   @computed('title')
@@ -167,7 +164,7 @@ export default Ember.Component.extend({
 
       const components = this.get('components');
       this.setProperties({
-        'component': components[step],
+        'component': "title-component-" + components[step],
         'step': step,
         'nextTarget': null
       })
@@ -177,11 +174,10 @@ export default Ember.Component.extend({
       if (this.get('nextDisabled')) return;
       this.resetDisplay();
 
-      const conditional = this.get('conditionalComponents');
-      const targetStep = conditional.indexOf(this.get('nextTarget'));
-      if (targetStep > -1) {
+      const nextTarget = this.get('nextTarget');
+      if (nextTarget) {
         this.setProperties({
-          'component': conditional[targetStep],
+          'component': 'title-component-' + nextTarget,
           'nextTarget': null,
           'isConditionalStep': true
         })
@@ -190,7 +186,7 @@ export default Ember.Component.extend({
 
       const components = this.get('components');
       let step = this.get('step');
-      if (step === (components.length - 1)) {
+      if (step === (components.length - 1) || components.length < 1) {
         return this.openComposer();
       } else if (step == null) {
         step = 0;
@@ -198,13 +194,13 @@ export default Ember.Component.extend({
         step++;
       }
 
-      const component = getOwner(this).lookup(`component:${components[step]}`);
+      const component = getOwner(this).lookup(`component:title-component-${components[step]}`);
       if (!component) {
         return this.openComposer();
       }
 
       this.setProperties({
-        'component': components[step],
+        'component': 'title-component-' + components[step],
         'step': step,
         'nextTarget': null
       })

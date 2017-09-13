@@ -9,9 +9,11 @@ import { getOwner } from 'discourse-common/lib/get-owner';
 export default {
   name: 'composer-edits',
   initialize(){
+
     Composer.serializeOnCreate('topic_type', 'currentType')
     Composer.serializeOnCreate('make_wiki', 'makeWiki')
     Composer.reopen({
+      showCreateMessage: Ember.computed.alias('creatingTopic'),
       showCategoryChooser: false,
       similarTitleTopics: Ember.A(),
       makeWiki: false,
@@ -29,7 +31,7 @@ export default {
 
       @computed('currentType', 'topicFirstPost')
       typeBodyPlaceholder(type, topicFirstPost) {
-        return topicFirstPost? `topic.type.${type}.body_placeholder` : false;
+        return topicFirstPost && type ? `topic.type.${type}.body_placeholder` : false;
       },
 
       @computed('canEditTopicFeaturedLink', 'currentType', 'topicFirstPost')

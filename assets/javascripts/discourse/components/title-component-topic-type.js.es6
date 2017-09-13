@@ -17,10 +17,12 @@ export default Ember.Component.extend({
   actions: {
     switchTopicType(type) {
       this.set('currentType', type);
-      this.sendAction('addComposerProperty', 'currentType', type)
+      this.sendAction('addComposerProperty', 'currentType', type);
+
       if (type === 'event') {
-        this.sendAction('setNextTarget', 'composer-add-event');
+        this.sendAction('setNextTarget', 'event');
       }
+      
       this.sendAction('ready');
     }
   }

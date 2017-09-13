@@ -7,9 +7,6 @@
 register_asset 'stylesheets/composer-addons.scss'
 
 after_initialize do
-  #SiteSetting.class_eval do
-    #@choices[:composer_title_components].push('composer-type-selection')
-  #end
 
   require_dependency 'topic_subtype'
   class ::TopicSubtype
