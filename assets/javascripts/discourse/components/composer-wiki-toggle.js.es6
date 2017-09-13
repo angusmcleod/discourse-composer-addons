@@ -1,3 +1,3 @@
 export default Ember.Component.extend({
-  classNames: ['btn-composer']
+  classNames: ['composer-label']
 })
